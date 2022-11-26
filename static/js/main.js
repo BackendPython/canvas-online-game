@@ -54,6 +54,7 @@ window.addEventListener('load', function () {
         for (let i = 0; i < spinerArray.length; i++) {
             let spiner = spinerArray[i];
             for (let j = 0; j < spinerArray.length; j++) {
+            if (spiner.dead==false) {
                 let spiner2 = spinerArray[j];
                 let a = spiner2.y - spiner.y;
                 let b = spiner2.x - spiner.x;
@@ -63,15 +64,22 @@ window.addEventListener('load', function () {
                     spiner2.colision = true;
                 }
                 else{
-                    spiner.colision = 'red';
-                    spiner2.colision = true;
+                    spiner.colision = false;
+                    spiner2.colision = false;
                 }
-                ctx.font = '50px san-serif'
+            }
+                // ctx.font = '50px san-serif'
                 // ctx.fillText(`Distance: ${distance}`, 100, 100)
             }
         }
         for (let y = 0; y < spinerArray.length; y++) {
             let spiner = spinerArray[y];
+            if (spiner.colision==true) {
+                spiner.color = 'green';
+            }
+            else{
+                spiner.color = 'red';
+            }
             spiner.uptade();
             spiner.draw();
         }
