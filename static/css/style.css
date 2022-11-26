@@ -1,0 +1,52 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#canvas1{
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    background: black;
+}
+
+#register{
+    top: 30%;
+    width: 30%;
+    height: 30%;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+}
+
+#register #player_name{
+    display: flex;
+    padding: 10px 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+#register #resgister_button{
+    display: flex;
+    color: black;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: blueviolet;
+}
+
