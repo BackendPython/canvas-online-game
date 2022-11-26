@@ -15,6 +15,7 @@ window.addEventListener('load', function () {
             this.y = 0;
             this.vx = 0;
             this.vy = 0;
+            this.score = 0;
             this.size = 50;
             this.dead = false;
             this.color = 'red';
@@ -38,38 +39,41 @@ window.addEventListener('load', function () {
     }
 
     function init(){
-        let newSpiner = new Spiner();
-        newSpiner.x = canvas.width/2;
-        newSpiner.y = canvas.height/2;
-        spinerArray.push(newSpiner);
+        for (let i = 0; i < 2; i++) {
+            let newSpiner = new Spiner();
+            newSpiner.x = Math.random() * canvas.width;
+            newSpiner.y = Math.random() * canvas.height;
+            newSpiner.vx = Math.random() -1.5 + 1;
+            newSpiner.vy = Math.random() -1.5 + 1;
+            spinerArray.push(newSpiner);
+        }
     }
     init();
-    let newSpiner = new Spiner();
-    newSpiner.x = canvas.width/2.3;
-    newSpiner.y = canvas.height/2.3;
-    spinerArray.push(newSpiner);
 
     function draw(){
         for (let i = 0; i < spinerArray.length; i++) {
-            const spiner = spinerArray[i];
-            if (spiner.dead==false) {
-                for (let j = 0; j < spinerArray.length; j++) {
-                    const spiner2 = spinerArray[j];
-                    let a = spiner2.y - spiner.y;
-                    let b = spiner2.x - spiner.x;
-                    let distance = Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
-                    if (distance < spiner.size + spiner2.size) {
-                        spiner.color = 'green';
-                        spiner2.color = 'green';
-                    }
-                    else{
-                        spiner.color = 'red';
-                        spiner2.color = 'red';
-                    }
+            let spiner = spinerArray[i];
+            for (let j = 0; j < spinerArray.length; j++) {
+                let spiner2 = spinerArray[j];
+                let a = spiner2.y - spiner.y;
+                let b = spiner2.x - spiner.x;
+                let distance = Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
+                if (distance < (spiner.size + spiner2.size)) {
+                    spiner.colision = true;
+                    spiner2.colision = true;
                 }
-                spiner.uptade();
-                spiner.draw();
+                else{
+                    spiner.colision = 'red';
+                    spiner2.colision = true;
+                }
+                ctx.font = '50px san-serif'
+                // ctx.fillText(`Distance: ${distance}`, 100, 100)
             }
+        }
+        for (let y = 0; y < spinerArray.length; y++) {
+            let spiner = spinerArray[y];
+            spiner.uptade();
+            spiner.draw();
         }
     }
 
