@@ -6,100 +6,50 @@ window.addEventListener('load', function () {
     ctx.textAlign = 'center';
     let particleArray = [];
     let spinerArray = [];
-    let player = 'null';
-    let game = true;
+    let game = false;
 
     let gameDetals = {
-        
+        player: 'null',
+        player_x: 100,
+        player_y: 100,
+        player_vx: 0,
+        player_vy: 0,
+        player_heal: 100,
+        player_turn: 'idle',
     }
 
-    class Spiner {
+    class Player {
         constructor(){
             this.x = 0;
             this.y = 0;
             this.vx = 0;
             this.vy = 0;
-            this.score = 0;
-            this.size = 50;
-            this.dead = false;
-            this.color = 'red';
-            this.originalX = 0;
-            this.originalY = 0;
             this.player = 'null';
-            this.colision = false;
-            this.colision_name = 'null';
+            this.remove_heal = 0;
+            this.original_heal = 100;
+            this.width = canvas.width / 20;
+            this.height = canvas.height / 10;
         }
         uptade(){
-            this.x += this.vx;
-            this.y += this.vy;
+            if (this.remove_heal>0) {
+                this.remove_heal = 0;
+                this.original_heal = this.original_heal - this.remove_heal;
+            }
+            if (gameDetals) {
+                this.x = gameDetals.player_x;
+                this.y = gameDetals.player_y;
+                this.vx = gameDetals.player_vx;
+                this.vy = gameDetals.player_vy;
+            }
         }
-        draw(){
-            ctx.beginPath();
-            ctx.fillStyle = this.color;
-            ctx.font = '50px san-serif';
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-            ctx.fill();
-            ctx.fillStyle = 'white';
-            ctx.fillText(this.player, this.x, this.y - this.size/1);
-            ctx.fillText(this.score, this.x, this.y + this.size/0.5);
-            ctx.closePath();
-        }
+
     }
 
-    function init(){
-        for (let i = 0; i < 2; i++) {
-            let newSpiner = new Spiner();
-            newSpiner.x = Math.random() * canvas.width;
-            newSpiner.y = Math.random() * canvas.height;
-            // newSpiner.vx = Math.random() -1.5 + 1;
-            // newSpiner.vy = Math.random() -1.5 + 1;
-            spinerArray.push(newSpiner);
-        }
-    }
-    init();
-
-    function draw(){
-        for (let i = 0; i < spinerArray.length; i++) {
-            let spiner = spinerArray[i];
-            let spiner2 = 'null';
-            if (spinerArray[i+1]) {
-                spiner2 = spinerArray[i+1];
-            }
-            else{
-                spiner2 = 'null';
-            }
-
-            if (spiner.dead==false&&spiner2!='null') {
-
-                let a = spiner2.y - spiner.y;
-                let b = spiner2.x - spiner.x;
-                let distance = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-                colision = (distance < spiner.size + spiner2.size);
-            
-                if (colision) {
-                    spiner.colision = true;
-                    spiner2.colision = true;
-                    console.log('colision');
-                }
-                else{
-                    spiner.colision = false;
-                    spiner2.colision = false;
-                }
-            }
-        }
-        for (let y = 0; y < spinerArray.length; y++) {
-            let spiner = spinerArray[y];
-            if (spiner.colision==true) {
-                spiner.color = 'green';
-            }
-            else{
-                spiner.color = 'red';
-            }
-            spiner.uptade();
-            spiner.draw();
-        }
+    function draw() {
+        
     }
 
+    var lastLoop = new Date();
     function animate() {
         ctx.clearRect(0, 0, canvas.width * 10, canvas.height * 10);
         let register_box = document.getElementById('register')
@@ -107,6 +57,15 @@ window.addEventListener('load', function () {
         if (game==true) {
             register_box.style.display = 'none';
             draw();
+            //  FPS calculate
+
+            // var thisLoop = new Date();
+            // var fps = 1000 / (thisLoop - lastLoop);
+            // var fps_org = Math.floor(fps);
+            // ctx.fillStyle = 'red';
+            // ctx.font = '50px san-serif';
+            // ctx.fillText(`FPS: ${fps_org}`, 100, 100);
+            // lastLoop = thisLoop;
         }
         else{
             register_box.style.display = 'flex';
@@ -114,8 +73,4 @@ window.addEventListener('load', function () {
         requestAnimationFrame(animate);
     }
     animate()
-
-    window.addEventListener('mousemove', function (e) {
-        
-    })
 })
