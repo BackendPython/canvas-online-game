@@ -3,9 +3,11 @@ window.addEventListener('load', function () {
     const ctx = canvas.getContext('2d');
     canvas.height = window.innerHeight;
     canvas.width = window.innerWidth;
+    ctx.textAlign = 'center';
     let particleArray = [];
     let spinerArray = [];
-    ctx.textAlign = 'center';
+    let player = 'null';
+    let game = true;
 
     let gameDetals = {
         
@@ -39,6 +41,7 @@ window.addEventListener('load', function () {
             ctx.fill();
             ctx.fillStyle = 'white';
             ctx.fillText(this.player, this.x, this.y - this.size/1);
+            ctx.fillText(this.score, this.x, this.y + this.size/0.5);
             ctx.closePath();
         }
     }
@@ -48,8 +51,8 @@ window.addEventListener('load', function () {
             let newSpiner = new Spiner();
             newSpiner.x = Math.random() * canvas.width;
             newSpiner.y = Math.random() * canvas.height;
-            newSpiner.vx = Math.random() -1.5 + 1;
-            newSpiner.vy = Math.random() -1.5 + 1;
+            // newSpiner.vx = Math.random() -1.5 + 1;
+            // newSpiner.vy = Math.random() -1.5 + 1;
             spinerArray.push(newSpiner);
         }
     }
@@ -58,25 +61,30 @@ window.addEventListener('load', function () {
     function draw(){
         for (let i = 0; i < spinerArray.length; i++) {
             let spiner = spinerArray[i];
-            for (let j = 0; j < spinerArray.length; j++) {
-            if (spiner.dead==false) {
-                let spiner2 = spinerArray[j];
+            let spiner2 = 'null';
+            if (spinerArray[i+1]) {
+                spiner2 = spinerArray[i+1];
+            }
+            else{
+                spiner2 = 'null';
+            }
+
+            if (spiner.dead==false&&spiner2!='null') {
+
                 let a = spiner2.y - spiner.y;
                 let b = spiner2.x - spiner.x;
-                let distance = Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
-                const colision = distance < (spiner.size + spiner2.size);
+                let distance = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+                colision = (distance < spiner.size + spiner2.size);
             
                 if (colision) {
                     spiner.colision = true;
                     spiner2.colision = true;
+                    console.log('colision');
                 }
                 else{
                     spiner.colision = false;
                     spiner2.colision = false;
                 }
-            }
-                // ctx.font = '50px san-serif'
-                // ctx.fillText(`Distance: ${distance}`, 100, 100)
             }
         }
         for (let y = 0; y < spinerArray.length; y++) {
@@ -96,7 +104,7 @@ window.addEventListener('load', function () {
         ctx.clearRect(0, 0, canvas.width * 10, canvas.height * 10);
         let register_box = document.getElementById('register')
 
-        if (gameDetals) {
+        if (game==true) {
             register_box.style.display = 'none';
             draw();
         }
@@ -108,9 +116,6 @@ window.addEventListener('load', function () {
     animate()
 
     window.addEventListener('mousemove', function (e) {
-        let x = e.x;
-        let y = e.y;
-        spinerArray[0].x = x;
-        spinerArray[0].y = y;
+        
     })
 })
