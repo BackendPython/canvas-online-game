@@ -5,6 +5,8 @@ window.addEventListener('load', function () {
     canvas.width = window.innerWidth;
     let particleArray = [];
     let spinerArray = [];
+    ctx.textAlign = 'center';
+
     let gameDetals = {
         
     }
@@ -32,8 +34,11 @@ window.addEventListener('load', function () {
         draw(){
             ctx.beginPath();
             ctx.fillStyle = this.color;
+            ctx.font = '50px san-serif';
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
             ctx.fill();
+            ctx.fillStyle = 'white';
+            ctx.fillText(this.player, this.x, this.y - this.size/1);
             ctx.closePath();
         }
     }
@@ -59,7 +64,9 @@ window.addEventListener('load', function () {
                 let a = spiner2.y - spiner.y;
                 let b = spiner2.x - spiner.x;
                 let distance = Math.sqrt(Math.pow(a,2) + Math.pow(b,2));
-                if (distance < (spiner.size + spiner2.size)) {
+                const colision = distance < (spiner.size + spiner2.size);
+            
+                if (colision) {
                     spiner.colision = true;
                     spiner2.colision = true;
                 }
@@ -99,4 +106,11 @@ window.addEventListener('load', function () {
         requestAnimationFrame(animate);
     }
     animate()
+
+    window.addEventListener('mousemove', function (e) {
+        let x = e.x;
+        let y = e.y;
+        spinerArray[0].x = x;
+        spinerArray[0].y = y;
+    })
 })
