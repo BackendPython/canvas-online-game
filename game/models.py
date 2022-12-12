@@ -5,7 +5,7 @@ class CustomeUser(AbstractUser):
     all_battle = models.IntegerField(default=0)
     victory_battles = models.IntegerField(default=0)
     defeat_battles = models.IntegerField(default=0)
-    
+
 class PlayerModel(models.Model):
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)

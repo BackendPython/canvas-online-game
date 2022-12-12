@@ -15,6 +15,7 @@ window.addEventListener('load', function () {
         player_vx: 0,
         player_vy: 0,
         player_heal: 100,
+        player_dead: false,
         player_turn: 'idle',
     }
 
@@ -31,10 +32,10 @@ window.addEventListener('load', function () {
             this.height = canvas.height / 10;
         }
         uptade(){
-            if (this.remove_heal>0) {
-                this.remove_heal = 0;
-                this.original_heal = this.original_heal - this.remove_heal;
-            }
+            // if (this.remove_heal>0) {
+            //     this.original_heal = this.original_heal - this.remove_heal;
+            //     this.remove_heal = 0;
+            // }
             if (gameDetals) {
                 this.x = gameDetals.player_x;
                 this.y = gameDetals.player_y;
@@ -50,6 +51,11 @@ window.addEventListener('load', function () {
     }
 
     var lastLoop = new Date();
+    let fps_org = 30;
+    window.addEventListener('resize', function () {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight    
+    })
     function animate() {
         ctx.clearRect(0, 0, canvas.width * 10, canvas.height * 10);
         let register_box = document.getElementById('register')
@@ -59,13 +65,12 @@ window.addEventListener('load', function () {
             draw();
             //  FPS calculate
 
-            // var thisLoop = new Date();
-            // var fps = 1000 / (thisLoop - lastLoop);
-            // var fps_org = Math.floor(fps);
-            // ctx.fillStyle = 'red';
-            // ctx.font = '50px san-serif';
-            // ctx.fillText(`FPS: ${fps_org}`, 100, 100);
-            // lastLoop = thisLoop;
+            var thisLoop = new Date();
+            var fps = 1000 / (thisLoop - lastLoop);
+            fps_org = Math.floor(fps);
+            ctx.fillStyle = 'red';
+            ctx.font = '50px san-serif';
+            lastLoop = thisLoop;
         }
         else{
             register_box.style.display = 'flex';
@@ -73,4 +78,7 @@ window.addEventListener('load', function () {
         requestAnimationFrame(animate);
     }
     animate()
+    setInterval(() => {
+        ctx.fillText(`FPS: ${fps_org}`, 100, 100);
+    }, 1000);
 })
