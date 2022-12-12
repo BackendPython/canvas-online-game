@@ -12,7 +12,6 @@ class PlayerModel(models.Model):
     vx = models.IntegerField(default=0)
     vy = models.IntegerField(default=0)
     dead = models.BooleanField(default=False)
-    remove_heal = models.IntegerField(default=0)
     orignal_heal = models.IntegerField(default=100)
     turn = models.CharField(max_length=20, default='idle')
     name = models.CharField(max_length=10, default='null')

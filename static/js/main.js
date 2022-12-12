@@ -5,8 +5,8 @@ window.addEventListener('load', function () {
     canvas.width = window.innerWidth;
     ctx.textAlign = 'center';
     let particleArray = [];
-    let spinerArray = [];
-    let game = false;
+    let playerArray = [];
+    let game = true;
 
     let gameDetals = {
         player: 'null',
@@ -25,10 +25,11 @@ window.addEventListener('load', function () {
             this.y = 0;
             this.vx = 0;
             this.vy = 0;
+            this.dead = false;
+            this.color = 'gray';
             this.player = 'null';
-            this.remove_heal = 0;
             this.original_heal = 100;
-            this.width = canvas.width / 20;
+            this.width = canvas.width / 100;
             this.height = canvas.height / 10;
         }
         uptade(){
@@ -36,26 +37,68 @@ window.addEventListener('load', function () {
             //     this.original_heal = this.original_heal - this.remove_heal;
             //     this.remove_heal = 0;
             // }
-            if (gameDetals) {
-                this.x = gameDetals.player_x;
-                this.y = gameDetals.player_y;
-                this.vx = gameDetals.player_vx;
-                this.vy = gameDetals.player_vy;
+            if (this.dead==false) {
+                this.x += this.vx;
+                this.y += this.vy;
             }
+        }
+        draw(){
+            ctx.beginPath();
+            ctx.fillStyle = this.color;
+            ctx.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
+            ctx.fill();
         }
 
     }
 
+    function init(){
+        for (let i = 0; i < 300; i++) {
+            const player = new Player();
+            player.x = Math.random() * canvas.width;
+            player.y = Math.random() * canvas.height;
+            player.vx = Math.random() * 1;
+            player.vy = Math.random() * 1;
+            playerArray.push(player);
+        }
+    }
+    // init();
+
     function draw() {
-        
+        for (let i = 0; i < playerArray.length; i++) {
+            let particle = playerArray[i];
+            if (particle.dead==false) {
+                particle.uptade();
+                particle.draw();
+            }
+        }
     }
 
     var lastLoop = new Date();
-    let fps_org = 30;
+    let fps_count = 0;
+    let fps_old = 60;
+
+
+    window.addEventListener('click', function(e){
+        setInterval(() => {
+            for (let i = 0; i < 50; i++) {
+                let player = new Player();
+                player.x = e.x;
+                player.y = e.y;
+                player.width = canvas.width/40;
+                player.height = canvas.height/20;
+                player.vx = Math.random() * 5 - 1.5;
+                player.vy = Math.random() * 5 - 1.5;
+                playerArray.push(player);
+            }
+        }, 1000);
+    })
+
+
     window.addEventListener('resize', function () {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight    
     })
+
     function animate() {
         ctx.clearRect(0, 0, canvas.width * 10, canvas.height * 10);
         let register_box = document.getElementById('register')
@@ -63,14 +106,27 @@ window.addEventListener('load', function () {
         if (game==true) {
             register_box.style.display = 'none';
             draw();
-            //  FPS calculate
 
-            var thisLoop = new Date();
-            var fps = 1000 / (thisLoop - lastLoop);
-            fps_org = Math.floor(fps);
-            ctx.fillStyle = 'red';
-            ctx.font = '50px san-serif';
-            lastLoop = thisLoop;
+            //  FPS calculate
+            if (lastLoop) {
+                var thisLoop = new Date();
+                var fps = 1000 / (thisLoop - lastLoop);
+                var fps_org = Math.floor(fps);
+                ctx.fillStyle = 'green';
+                if (fps_count>80) {
+                    fps_count = 0;
+                    fps_old = fps_org;
+                    ctx.font = '50px san-serif';
+                    ctx.fillText(`FPS: ${fps_org}`, 100, 100);
+                }
+                else{
+                    fps_count++;
+                    ctx.font = '50px san-serif';
+                    ctx.fillText(`FPS: ${fps_old}`, 100, 100);
+                }
+                lastLoop = thisLoop;
+            }
+
         }
         else{
             register_box.style.display = 'flex';
@@ -78,7 +134,4 @@ window.addEventListener('load', function () {
         requestAnimationFrame(animate);
     }
     animate()
-    setInterval(() => {
-        ctx.fillText(`FPS: ${fps_org}`, 100, 100);
-    }, 1000);
 })
