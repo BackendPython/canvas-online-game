@@ -10,6 +10,10 @@
 </head>
 <body>
     
+    <div class="images_box" style="display: none;">
+        <img src="{% static 'images/wooden.png' %}" alt="error" id="wooden">
+        <img src="{% static 'images/wall.jpg' %}" alt="error" id="brick">
+    </div>
 
     <canvas id="canvas1"></canvas>
 
@@ -17,7 +21,6 @@
         <input id="player_name"></input>
         <button id="resgister_button" type="submit">Submit</button>
     </div>
-
 
     <script src="{% static 'js/main.js' %}"></script>
 </body>

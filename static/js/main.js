@@ -5,39 +5,54 @@ window.addEventListener("load", function () {
   canvas.width = window.innerWidth;
   ctx.textAlign = "center";
   let particleArray = [];
-  let map = "nocturnal";
   let playerArray = [];
+  let map = "wooden";
   let wallArray = [];
-  const wall_id = 0; 
+  const wall_id = 0;
   const map_id = 0;
   let game = true;
 
+  const standart_widths = {num_100: canvas.width/20,};
+
+  const imageRecources = [
+    {title: 'wooden', image_element: document.getElementById('wooden')},
+    {title: 'brick', image_element: document.getElementById('brick')},
+    {title: '_wall', image_element: document.getElementById('wooden_wall')},
+  ]
+
   const mapsArray = [
     {
-      title: "nocturnal",
-      wallsCount: 10,
+      title: "wooden",
+      wallsCount: 28,
       walls: [
-        { x: 0, y: 100, width: 100, height: 100 },
-        { x: 100, y: 100, width: 100, height: 100 },
-        { x: 200, y: 100, width: 100, height: 100 },
-        { x: 300, y: 300, width: 100, height: 100 },
-        { x: 110, y: 300, width: 100, height: 100 },
-        { x: 230, y: 300, width: 100, height: 100 },
-        { x: 0, y: 500, width: 100, height: 100 },
-        { x: 110, y: 500, width: 100, height: 100 },
-        { x: 230, y: 500, width: 100, height: 100 },
-        { x: 0, y: 700, width: 100, height: 100 },
-        { x: 0, y: 100, width: 100, height: 100 },
-        { x: 110, y: 100, width: 100, height: 100 },
-        { x: 230, y: 100, width: 100, height: 100 },
-        { x: 0, y: 300, width: 100, height: 100 },
-        { x: 110, y: 300, width: 100, height: 100 },
-        { x: 230, y: 300, width: 100, height: 100 },
-        { x: 0, y: 500, width: 100, height: 100 },
-        { x: 110, y: 500, width: 100, height: 100 },
-        { x: 230, y: 500, width: 100, height: 100 },
-        { x: 0, y: 700, width: 100, height: 100 },
-        
+        { x: 0, y: 200, width: standart_widths.num_100, height: 100 },
+        { x: 90, y: 200, width: standart_widths.num_100, height: 100 },
+        { x: 180, y: 200, width: standart_widths.num_100, height: 100 },
+        { x: 270, y: 200, width: standart_widths.num_100, height: 100 },
+        { x: 360, y: 200, width: standart_widths.num_100, height: 100 },
+        { x: 450, y: 200, width: standart_widths.num_100, height: 100 },
+        { x: 540, y: 200, width: standart_widths.num_100, height: 100 },
+        { x: 0, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 90, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 180, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 270, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 360, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 450, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 540, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 0, y: 200, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 90, y: 200, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 180, y: 200, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 270, y: 200, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 360, y: 200, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 450, y: 200, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 540, y: 200, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 0, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 90, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 180, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 270, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 360, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 450, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 540, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
       ],
     },
   ];
@@ -83,10 +98,11 @@ window.addEventListener("load", function () {
       this.colision = false;
     }
     uptade() {}
-    draw() {
+    draw(image) {
       ctx.beginPath();
       ctx.fillStyle = this.color;
-      ctx.fillRect(this.x, this.y, this.width, this.height);
+      //ctx.fillRect(this.x, this.y, this.width, this.height);
+      ctx.drawImage(image, this.x, this.y, this.width, this.height);
       ctx.fill();
       ctx.closePath();
     }
@@ -132,22 +148,21 @@ window.addEventListener("load", function () {
     //     player.vy = Math.random() * 5 - 1.5;
     //     playerArray.push(player);
     // }
-    if (map == "nocturnal") {
-        mapsArray.forEach(function (map_name) {
-            if (map_name.title=='nocturnal') {
-                for (let b = 0; b < map_name.wallsCount; b++) {
-                    let box_wall_info = map_name.walls[b];
-                    let box_wall = new Box_Wall();
-                    box_wall.x = box_wall_info.x;
-                    box_wall.y = box_wall_info.y;
-                    box_wall.width = box_wall_info.width;
-                    box_wall.height = box_wall_info.height;
-                    wallArray.push(box_wall);
-                  }
-            }
-        })
+    if (map == "wooden") {
+      mapsArray.forEach(function (map_name) {
+        if (map_name.title == map) {
+          for (let b = 0; b < map_name.wallsCount; b++) {
+            let box_wall_info = map_name.walls[b];
+            let box_wall = new Box_Wall();
+            box_wall.x = box_wall_info.x;
+            box_wall.y = box_wall_info.y;
+            box_wall.width = box_wall_info.width;
+            box_wall.height = box_wall_info.height;
+            wallArray.push(box_wall);
+          }
+        }
+      });
     }
-    console.log(wallArray);
   }
   init();
 
@@ -161,8 +176,13 @@ window.addEventListener("load", function () {
     }
     for (let b = 0; b < wallArray.length; b++) {
       const box_wall = wallArray[b];
-      box_wall.uptade();
-      box_wall.draw();
+        for (let m = 0; m < imageRecources.length; m++) {
+            const mTitle = imageRecources[m];
+            if (mTitle.title==map) {
+                box_wall.uptade();
+                box_wall.draw(mTitle.image_element);
+            }
+        }
     }
   }
 
@@ -173,6 +193,7 @@ window.addEventListener("load", function () {
   window.addEventListener("resize", function () {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
+    standart_widths.num_100 = canvas.width / 20;
   });
 
   function animate() {
