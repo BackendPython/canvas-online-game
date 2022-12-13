@@ -6,6 +6,7 @@ window.addEventListener('load', function () {
     ctx.textAlign = 'center';
     let particleArray = [];
     let playerArray = [];
+    let wallArray = [];
     let game = true;
 
     let gameDetals = {
@@ -56,12 +57,12 @@ window.addEventListener('load', function () {
             const player = new Player();
             player.x = Math.random() * canvas.width;
             player.y = Math.random() * canvas.height;
-            player.vx = Math.random() * 1;
-            player.vy = Math.random() * 1;
+            player.vx = Math.random() * 5 - 1.5;
+            player.vy = Math.random() * 5 - 1.5;
             playerArray.push(player);
         }
     }
-    // init();
+    init();
 
     function draw() {
         for (let i = 0; i < playerArray.length; i++) {
@@ -76,22 +77,6 @@ window.addEventListener('load', function () {
     var lastLoop = new Date();
     let fps_count = 0;
     let fps_old = 60;
-
-
-    window.addEventListener('click', function(e){
-        setInterval(() => {
-            for (let i = 0; i < 50; i++) {
-                let player = new Player();
-                player.x = e.x;
-                player.y = e.y;
-                player.width = canvas.width/40;
-                player.height = canvas.height/20;
-                player.vx = Math.random() * 5 - 1.5;
-                player.vy = Math.random() * 5 - 1.5;
-                playerArray.push(player);
-            }
-        }, 1000);
-    })
 
 
     window.addEventListener('resize', function () {
