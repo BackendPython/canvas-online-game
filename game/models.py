@@ -11,6 +11,8 @@ class PlayerModel(models.Model):
     y = models.IntegerField(default=0)
     vx = models.IntegerField(default=0)
     vy = models.IntegerField(default=0)
+    width = models.IntegerField(default=100)
+    height = models.IntegerField(default=100)
     dead = models.BooleanField(default=False)
     orignal_heal = models.IntegerField(default=100)
     turn = models.CharField(max_length=20, default='idle')
