@@ -25,20 +25,54 @@ window.addEventListener("load", function () {
       title: "wooden",
       wallsCount: 28,
       walls: [
-        { x: 0, y: 200, width: standart_widths.num_100, height: 100 },
-        { x: 90, y: 200, width: standart_widths.num_100, height: 100 },
-        { x: 180, y: 200, width: standart_widths.num_100, height: 100 },
-        { x: 270, y: 200, width: standart_widths.num_100, height: 100 },
-        { x: 360, y: 200, width: standart_widths.num_100, height: 100 },
-        { x: 450, y: 200, width: standart_widths.num_100, height: 100 },
-        { x: 540, y: 200, width: standart_widths.num_100, height: 100 },
-        { x: 0, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
-        { x: 90, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
-        { x: 180, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
-        { x: 270, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
-        { x: 360, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
-        { x: 450, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
-        { x: 540, y: 500, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 0, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 90, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 180, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 270, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 360, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 450, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 540, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 0, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 90, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 180, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 270, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 360, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 450, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 540, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 0, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 90, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 180, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 270, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 360, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 450, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 540, y: standart_widths.num_100 * 2, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 0, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 90, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 180, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 270, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 360, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 450, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 540, y: standart_widths.num_100 * 6, width: standart_widths.num_100, height: standart_widths.num_100 },
+      ],
+    },
+    {
+      title: "brick",
+      wallsCount: 28,
+      walls: [
+        { x: 0, y: standart_widths.num_100+standart_widths.num_100, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 90, y: standart_widths.num_100+standart_widths.num_100, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 180, y: standart_widths.num_100+standart_widths.num_100, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 270, y: standart_widths.num_100+standart_widths.num_100, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 360, y: standart_widths.num_100+standart_widths.num_100, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 450, y: standart_widths.num_100+standart_widths.num_100, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 540, y: standart_widths.num_100+standart_widths.num_100, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 0, y: standart_widths.num_100 * 5, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 90, y: standart_widths.num_100 * 5, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 180, y: standart_widths.num_100 * 5, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 270, y: standart_widths.num_100 * 5, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 360, y: standart_widths.num_100 * 5, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 450, y: standart_widths.num_100 * 5, width: standart_widths.num_100, height: standart_widths.num_100 },
+        { x: 540, y: standart_widths.num_100 * 5, width: standart_widths.num_100, height: standart_widths.num_100 },
         { x: 0, y: 200, width: standart_widths.num_100, height: standart_widths.num_100 },
         { x: 90, y: 200, width: standart_widths.num_100, height: standart_widths.num_100 },
         { x: 180, y: 200, width: standart_widths.num_100, height: standart_widths.num_100 },
@@ -89,8 +123,8 @@ window.addEventListener("load", function () {
 
   class Box_Wall {
     constructor() {
-      this.x = 0;
-      this.y = 0;
+      this.x = undefined;
+      this.y = undefined;
       this.width = 100;
       this.height = 100;
       this.color = "red";
@@ -148,13 +182,21 @@ window.addEventListener("load", function () {
     //     player.vy = Math.random() * 5 - 1.5;
     //     playerArray.push(player);
     // }
-    if (map == "wooden") {
       mapsArray.forEach(function (map_name) {
         if (map_name.title == map) {
-          for (let b = 0; b < map_name.wallsCount; b++) {
+          console.log(map_name.walls.length);
+          for (let b = 0; b < map_name.walls.length; b++) {
             let box_wall_info = map_name.walls[b];
             let box_wall = new Box_Wall();
-            box_wall.x = box_wall_info.x;
+            if (b<7) {
+              box_wall.x = (box_wall_info.width - 10) * b;
+            }
+            else if(b<14){
+              box_wall.x = (box_wall_info.width - 10) * (b/2);
+            }
+            // else{
+            //   box_wall.x = box_wall_info.x+standart_widths.num_100;
+            // }
             box_wall.y = box_wall_info.y;
             box_wall.width = box_wall_info.width;
             box_wall.height = box_wall_info.height;
@@ -162,7 +204,6 @@ window.addEventListener("load", function () {
           }
         }
       });
-    }
   }
   init();
 
@@ -213,12 +254,12 @@ window.addEventListener("load", function () {
         if (fps_count > 80) {
           fps_count = 0;
           fps_old = fps_org;
-          ctx.font = "50px san-serif";
-          ctx.fillText(`FPS: ${fps_org}`, 100, 100);
+          ctx.font = `${standart_widths.num_100/2}px san-serif`;
+          ctx.fillText(`FPS: ${fps_org}`, standart_widths.num_100, standart_widths.num_100);
         } else {
           fps_count++;
-          ctx.font = "50px san-serif";
-          ctx.fillText(`FPS: ${fps_old}`, 100, 100);
+          ctx.font = `${standart_widths.num_100/2}px san-serif`;
+          ctx.fillText(`FPS: ${fps_old}`, standart_widths.num_100, standart_widths.num_100);
         }
         lastLoop = thisLoop;
       }
