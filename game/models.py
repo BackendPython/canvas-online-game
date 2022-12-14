@@ -14,6 +14,8 @@ class ArenaModel(models.Model):
     player_2 = models.CharField(max_length=20, default='null')
     player_3 = models.CharField(max_length=20, default='null')
     player_4 = models.CharField(max_length=20, default='null')
+    def __str__(self):
+        return self.id
     
 
 class PlayerModel(models.Model):
@@ -24,9 +26,12 @@ class PlayerModel(models.Model):
     width = models.IntegerField(default=100)
     height = models.IntegerField(default=100)
     dead = models.BooleanField(default=False)
+    arena_id = models.IntegerField(default=0)
     orignal_heal = models.IntegerField(default=100)
     team = models.CharField(default='blue', max_length=10)
     turn = models.CharField(max_length=20, default='idle')
     color = models.CharField(max_length=20, default='blue')
     player = models.CharField(max_length=10, default='null')
+    def __str__(self):
+        return self.player
     
