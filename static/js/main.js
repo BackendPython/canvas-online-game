@@ -372,35 +372,8 @@ window.addEventListener("load", function () {
     },
   ];
 
-  let gameDetals = {
-    player: "null",
-    player_x: 100,
-    player_y: 100,
-    player_vx: 0,
-    player_vy: 0,
-    player_heal: 100,
-    player_dead: false,
-    player_turn: "idle",
-  };
 
-  // class Nocturnal {
-  //     constructor(){
-  //         this.x = 0;
-  //         this.y = 0;
-  //         this.width = 100;
-  //         this.height = 100;
-  //         this.color = 'red';
-  //         this.wall_count = 10;
-  //         this.colision = false;
-  //         this.wall1 = {x: 0, y: 100}
-  //     }
-  //     uptade(){
 
-  //     }
-  //     draw(){
-
-  //     }
-  // }
 
   class Box_Wall {
     constructor() {

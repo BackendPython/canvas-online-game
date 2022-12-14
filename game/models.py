@@ -6,6 +6,16 @@ class CustomeUser(AbstractUser):
     defeat_battles = models.IntegerField(default=0)
     victory_battles = models.IntegerField(default=0)
 
+class ArenaModel(models.Model):
+    team_red = models.IntegerField(default=0)
+    team_blue = models.IntegerField(default=0)
+    won = models.CharField(default='null', max_length=10)
+    player_1 = models.CharField(max_length=20, default='null')
+    player_2 = models.CharField(max_length=20, default='null')
+    player_3 = models.CharField(max_length=20, default='null')
+    player_4 = models.CharField(max_length=20, default='null')
+    
+
 class PlayerModel(models.Model):
     x = models.IntegerField(default=0)
     y = models.IntegerField(default=0)
@@ -15,7 +25,8 @@ class PlayerModel(models.Model):
     height = models.IntegerField(default=100)
     dead = models.BooleanField(default=False)
     orignal_heal = models.IntegerField(default=100)
+    team = models.CharField(default='blue', max_length=10)
     turn = models.CharField(max_length=20, default='idle')
-    color = models.CharField(max_length=20, default='red')
+    color = models.CharField(max_length=20, default='blue')
     player = models.CharField(max_length=10, default='null')
     
