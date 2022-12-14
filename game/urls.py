@@ -3,4 +3,9 @@ from game.views import *
 
 urlpatterns = [
     path('', home, name='home'),
+    path('arena', arena, name='arena'),
+    path('arena-add', arena_add, name='arena_add'),
+    path('arena-<int:pk>', arena_single, name='arena_single'),
+    path('arena-edit/<int:pk>', arena_single_edit, name='arena_single_edit'),
+    path('arena-delete/<int:pk>', arena_single_delete, name='arena_single_delete'),
 ]
