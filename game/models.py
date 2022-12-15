@@ -15,7 +15,7 @@ class ArenaModel(models.Model):
     player_3 = models.CharField(max_length=20, default='null')
     player_4 = models.CharField(max_length=20, default='null')
     def __str__(self):
-        return self.id
+        return self.won
     
 
 class PlayerModel(models.Model):

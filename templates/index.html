@@ -10,22 +10,28 @@
     <title>Canvas game</title>
 </head>
 <body>
+
+  
     
     <div class="images_box" style="display: none;">
+      <img src="{% static 'images/wall.jpg' %}" alt="error" id="brick">
         <img src="{% static 'images/wooden.png' %}" alt="error" id="wooden">
-        <img src="{% static 'images/wall.jpg' %}" alt="error" id="brick">
+        <img src="{% static 'images/tank_background.jpg' %}" alt="error" id="background">
     </div>
 
     <canvas id="canvas1"></canvas>
 
     <div id="register">
+        <div class="load">
+          <hr/><hr/><hr/><hr/>
+        </div>
         <input id="register_name"></input>
         <button id="resgister_button" type="submit">Submit</button>
     </div>
 
     <script src="{% static 'js/main.js' %}"></script>
     <script>
-        window.addEventListener("load", function () {
+  window.addEventListener("load", function () {
   const register = document.getElementById('register');
   const register_input = document.getElementById('register_name');
   const register_button = document.getElementById('resgister_button');
@@ -33,10 +39,13 @@
   const ctx = canvas.getContext("2d");
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
+  let true_register_name = '';
   ctx.textAlign = "center";
   let change_wall = false;
   let name_error = false;
   let particleArray = [];
+  let load_arena = false;
+  let push_name = false;
   let playerArray = [];
   let last_name = '';
   let map = "wooden";
@@ -51,6 +60,7 @@
     { title: "wooden", image_element: document.getElementById("wooden") },
     { title: "brick", image_element: document.getElementById("brick") },
     { title: "_wall", image_element: document.getElementById("wooden") },
+    { title: "background", image_element: document.getElementById("background") },
   ];
 
     const arena_org_data = {
@@ -463,7 +473,11 @@
       this.y = 0;
       this.vx = 0;
       this.vy = 0;
+      this.id = 0;
       this.dead = false;
+      this.arena_id = 0;
+      this.turn = 'idle';
+      this.team = 'blue';
       this.color = "blue";
       this.player = "null";
       this.original_heal = 100;
@@ -471,10 +485,6 @@
       this.height = canvas.height / 10;
     }
     uptade() {
-      // if (this.remove_heal>0) {
-      //     this.original_heal = this.original_heal - this.remove_heal;
-      //     this.remove_heal = 0;
-      // }
       if (this.dead == false) {
         this.x += this.vx;
         this.y += this.vy;
@@ -483,7 +493,15 @@
     draw() {
       ctx.beginPath();
       ctx.fillStyle = this.color;
-      ctx.arc(this.x, this.y, 2, 0, Math.PI * 2, false);
+      if (this.dead==false) {
+        if (this.team=='blue') {
+          imageRecources.forEach(function(image){if(image.title=='blue_tank'){ctx.drawImage(image.image_element, this.x, this.y, this.width, this.height)}})
+        }
+        else {
+          imageRecources.forEach(function(image){if(image.title=='red_tank'){ctx.drawImage(image.image_element, this.x, this.y, this.width, this.height)}})
+        }
+      }
+      ctx.closePath();
       ctx.fill();
     }
   }
@@ -579,6 +597,8 @@
     .then((response) => response.json())
     .then((data) => {
         console.log('succes: ', data);
+        last_name = data.player;
+        console.log(last_name);
     })
     .catch((error) => {
         console.error("Error:", error);
@@ -643,8 +663,45 @@
     }
   }
 
+  function name_true() {
+    true_register_name = register_input.value;
+    if (player_data.length===0) {
+      if (name_error==false&&push_name==false) {
+          push_name = true;
+          load_arena = true;
+          player_org_data.dead = false;
+          player_org_data.arena_id = 0;
+          player_org_data.team = 'blue';
+          player_org_data.player = true_register_name;
+          create_player();
+        }
+        else{
+          name_error = true;
+          error();
+        }
+      }
+    for (let i = 0; i < player_data.length; i++) {
+      const player = player_data[i];
+      if (name_error==false&&push_name==false) {
+        if (true_register_name!==player.player) {
+          push_name = true;
+          load_arena = true;
+          player_org_data.dead = false;
+          player_org_data.arena_id = 0;
+          player_org_data.team = 'blue';
+          player_org_data.player = true_register_name;
+          create_player();
+        }
+        else{
+          name_error = true;
+          error();
+        }
+      }
+    }
+  }
+
   register_button.addEventListener('click', function () {
-    if (register_input.value!=='') {
+    if (register_input.value!==''&&register_input.value.length<10) {
       for (let i = 0; i < register_input.value.length; i++) {
         let str = register_input.value.charAt(i);
         if (str==' ') {
@@ -656,7 +713,7 @@
       }
       if (name_error==false) {
         // true name
-        
+        name_true();
       }
       else{
         // false name
@@ -679,6 +736,19 @@
   function animate() {
     ctx.clearRect(0, 0, canvas.width * 10, canvas.height * 10);
     let register_box = document.getElementById("register");
+    let load = document.querySelector('.load');
+    if (load_arena==true) {
+      load.classList.add('true');
+      load.classList.remove('false');
+      setTimeout(() => {
+        game = true;
+        load_arena = false;
+      }, 3000);
+    }
+    else{
+      load.classList.add('false');
+      load.classList.remove('true');
+    }
     get_arena();
     get_player();
 
@@ -712,7 +782,23 @@
         }
         lastLoop = thisLoop;
       }
-    } else {
+    } 
+    else {
+      imageRecources.forEach(function (element) {
+        if (element.title=='background') {
+          ctx.beginPath();
+          ctx.fillStyle = '#000';
+          ctx.drawImage(element.image_element, 0, 0, canvas.width, canvas.height);
+          ctx.closePath();
+          ctx.fill();
+        }
+      })
+      if (window.innerWidth<900) {
+        register_button.style.fontSize = '50%';
+      }
+      else{
+        register_button.style.fontSize = '100%';
+      }
       register_box.style.display = "flex";
     }
     requestAnimationFrame(animate);

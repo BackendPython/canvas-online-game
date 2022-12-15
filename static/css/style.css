@@ -27,23 +27,51 @@ body{
     align-items: center;
     justify-content: center;
     background-color: transparent;
+    box-shadow: 10px 10px 5px 0px red,
+                10px -10px 5px 0px blue,
+                -10px 10px 5px 0px blue,
+                -10px -10px 5px 0px blue;
 }
 
 #register #register_name{
+    width: 40%;
+    height: 15%;
     display: flex;
-    padding: 10px 15px;
+    text-align: center;
     align-items: center;
     justify-content: center;
 }
 
 #register #resgister_button{
+    width: 20%;
+    height: 18%;
     display: flex;
     color: black;
     cursor: pointer;
-    font-size: 20px;
-    padding: 10px 10px;
+    font-size: 100%;
     align-items: center;
     justify-content: center;
     background-color: blueviolet;
 }
 
+
+
+
+.load.true{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
+    /*change these sizes to fit into your project*/
+    width:100px;
+    height:100px;
+  }
+  .load.true hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
+  
+  .load.true :first-child{background:#19A68C;animation-delay:-1.5s}
+  .load.true :nth-child(2){background:#F63D3A;animation-delay:-1s}
+  .load.true :nth-child(3){background:#FDA543;animation-delay:-0.5s}
+  .load.true :last-child{background:#193B48}
+  
+  @keyframes spin{
+    0%,100%{transform:translate(0)}
+    25%{transform:translate(160%)}
+    50%{transform:translate(160%, 160%)}
+    75%{transform:translate(0, 160%)}
+  }
