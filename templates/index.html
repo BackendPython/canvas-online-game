@@ -762,22 +762,30 @@
   function serach_arena() {
     // arena id select
     arena_data.forEach(function (item) {
-      if (item.team_blue!==2||item.team_red!==2&&item.player_1!==last_name&&item.player_2!==last_name&&arenaArray.player_3!==last_name&&arenaArray.player_4!==last_name) {
+      if (item.team_blue!==2||item.team_red!==2&&item.player_1!==last_name&&item.player_2!==last_name&&arenaArray.player_3!==last_name&&arenaArray.player_4!==last_name&&name_add_arena==false) {
         arena_id = item.id
         arenaArray = item;
       }
-      else{
-        console.log('item');
+      else if (name_add_arena==false){
+        name_add_arena = true;
+        arena_org_data.won = 'null';
+        arena_org_data.team_red = 0;
+        arena_org_data.team_blue = 1;
+        arena_org_data.player_1 = last_name;
+        arena_org_data.player_2 = 'null';
+        arena_org_data.player_3 = 'null';
+        arena_org_data.player_4 = 'null';
+        create_arena();
       }
     });
-    console.log(arenaArray);
+
     if (arena_data.length===0&&name_add_arena==false) {
-      name_add_arena = true;
-      arena_org_data.won = 'null';
-      arena_org_data.team_red = 0;
-      arena_org_data.team_blue = 1;
-      arena_org_data.player_1 = last_name;
-      create_arena();
+        name_add_arena = true;
+        arena_org_data.won = 'null';
+        arena_org_data.team_red = 0;
+        arena_org_data.team_blue = 1;
+        arena_org_data.player_1 = last_name;
+        create_arena();
     }
     else{
       for (let i = 0; i < arena_data.length; i++) {
@@ -794,6 +802,7 @@
               edit_arena();
             }
             else if (arenaArray.player_2=='null') {
+              console.log('1-shart success 2');
               arenaArray.team_blue = arenaArray.team_blue + 1;
               arenaArray.player_2 = last_name;
               name_add_arena = true;
@@ -806,14 +815,14 @@
             if (arenaArray.player_3=='null') {
               arenaArray.team_red = arenaArray.team_red + 1;
               arenaArray.player_3 = last_name;
-              edit_arena();
               name_add_arena = true;
+              edit_arena();
             }
             else if (arenaArray.player_4=='null') {
               arenaArray.team_red = arenaArray.team_red + 1;
               arenaArray.player_4 = last_name;
-              edit_arena();
               name_add_arena = true;
+              edit_arena();
             }
           }
 
