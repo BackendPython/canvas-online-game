@@ -17,6 +17,7 @@
       <img src="{% static 'images/wall.jpg' %}" alt="error" id="brick">
         <img src="{% static 'images/wooden.png' %}" alt="error" id="wooden">
         <img src="{% static 'images/tank_background.jpg' %}" alt="error" id="background">
+        <img src="{% static 'images/game_background.png' %}" alt="error" id="game_background">
     </div>
 
     <canvas id="canvas1"></canvas>
@@ -63,7 +64,8 @@
     { title: "wooden", image_element: document.getElementById("wooden") },
     { title: "brick", image_element: document.getElementById("brick") },
     { title: "_wall", image_element: document.getElementById("wooden") },
-    { title: "background", image_element: document.getElementById("background") },
+    { title: "register_background", image_element: document.getElementById("background") },
+    { title: "game_background", image_element: document.getElementById("game_background") },
   ];
 
     const arena_org_data = {
@@ -802,7 +804,6 @@
               edit_arena();
             }
             else if (arenaArray.player_2=='null') {
-              console.log('1-shart success 2');
               arenaArray.team_blue = arenaArray.team_blue + 1;
               arenaArray.player_2 = last_name;
               name_add_arena = true;
@@ -826,14 +827,13 @@
             }
           }
 
-
         }
       }
     }
   }
 
   register_button.addEventListener('click', function () {
-    if (register_input.value!==''&&register_input.value.length<10) {
+    if (register_input.value!==''&&register_input.value.length<10&&register_input.value!='null') {
       for (let i = 0; i < register_input.value.length; i++) {
         let str = register_input.value.charAt(i);
         if (str==' ') {
@@ -876,6 +876,9 @@
       load.classList.add('true');
       load.classList.remove('false');
       serach_arena();
+      if (name_add_arena==true) {
+        game = true;
+      }
     }
     else{
       load.classList.add('false');
@@ -884,6 +887,15 @@
 
 
     if (game == true) {
+      imageRecources.forEach(function (element) {
+        if (element.title=='game_background') {
+          ctx.beginPath();
+          ctx.fillStyle = '#000';
+          ctx.drawImage(element.image_element, 0, 0, canvas.width, canvas.height);
+          ctx.closePath();
+          ctx.fill();
+        }
+      })
       register_box.style.display = "none";
       draw();
 
@@ -916,7 +928,7 @@
     } 
     else {
       imageRecources.forEach(function (element) {
-        if (element.title=='background') {
+        if (element.title=='register_background') {
           ctx.beginPath();
           ctx.fillStyle = '#000';
           ctx.drawImage(element.image_element, 0, 0, canvas.width, canvas.height);

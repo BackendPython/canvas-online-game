@@ -27,10 +27,12 @@ body{
     align-items: center;
     justify-content: center;
     background-color: transparent;
-    box-shadow: 10px 10px 5px 0px red,
-                10px -10px 5px 0px blue,
-                -10px 10px 5px 0px blue,
-                -10px -10px 5px 0px blue;
+    /* background: rgb(58,69,180); */
+    /* box-shadow: 10px 10px 0px 10px red,
+                10px -10px 0px 10px blue,
+                -10px 10px 0px 10px blue,
+                -10px -10px 0px 10px blue; */
+    /* background: linear-gradient(150deg, rgba(58,69,180,1) 43%, rgba(255,0,0,1) 57%); */
 }
 
 #register #register_name{
@@ -57,12 +59,16 @@ body{
 
 
 
+/* loading animations */
 .load.true{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);
     /*change these sizes to fit into your project*/
     width:100px;
     height:100px;
   }
-  .load.true hr{border:0;margin:0;width:40%;height:40%;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
+  .load hr{
+    display: none;
+  }
+  .load.true hr{border:0;margin:0;width:40%;height:40%;display: flex;position:absolute;border-radius:50%;animation:spin 2s ease infinite}
   
   .load.true :first-child{background:#19A68C;animation-delay:-1.5s}
   .load.true :nth-child(2){background:#F63D3A;animation-delay:-1s}
