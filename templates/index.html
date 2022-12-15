@@ -40,6 +40,7 @@
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
   let true_register_name = '';
+  let name_add_arena = false;
   ctx.textAlign = "center";
   let change_wall = false;
   let name_error = false;
@@ -47,11 +48,13 @@
   let load_arena = false;
   let push_name = false;
   let playerArray = [];
+  let arenaArray = [];
+  let wallArray = [];
   let last_name = '';
   let map = "wooden";
-  let wallArray = [];
+  let player_id = 0;
+  let arena_id = 0;
   let wall_id = 0;
-  let map_id = 0;
   let game = false;
 
   const standart_widths = { num_100: canvas.width / 20 };
@@ -506,6 +509,19 @@
     }
   }
 
+  class Arena {
+    constructor(){
+      this.id = id;
+      this.won = 'null';
+      this.team_red = 0;
+      this.team_blue = 0;
+      this.player_1 = 'null';
+      this.player_2 = 'null';
+      this.player_3 = 'null';
+      this.player_4 = 'null';
+    }
+  }
+
   function init() {
     mapsArray.forEach(function (map_name) {
       if (map_name.title == map) {
@@ -578,11 +594,32 @@
       .then((response) => response.json())
       .then((data) => {
         console.log('succes: ', data);
+        arena_id = data.id;
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   }
+
+  function edit_arena() {
+
+  fetch(`/arena-edit/${arena_id}`, {
+    method: "POST", // or 'PUT'
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": "{{ csrf_token }}",
+    },
+    body: JSON.stringify(arenaArray),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+  }
+
 
   function create_player() {
 
@@ -598,7 +635,7 @@
     .then((data) => {
         console.log('succes: ', data);
         last_name = data.player;
-        console.log(last_name);
+        player_id = data.id;
     })
     .catch((error) => {
         console.error("Error:", error);
@@ -700,6 +737,44 @@
     }
   }
 
+  // not use
+  function push_anena() {
+    for (let a = 0; a < arena_data.length; a++) {
+      let arena = arena_data[a];
+      let new_arena = new Arena();
+      
+    }
+  }
+
+  function serach_arena() {
+    arena_data.forEach(function(id){if(id.id===arena_id){arenaArray=id}});
+    console.log(arenaArray);
+    if (arena_data.length==0) {
+      arena_org_data.won = 'null';
+      arena_org_data.team_red = 0;
+      arena_org_data.team_blue = 1;
+      arena_org_data.player_1 = last_name;
+      create_arena();
+    }
+    else{
+      for (let i = 0; i < arena_data.length; i++) {
+        let arena = arena_data[i];
+        
+        if (arena.team_blue!==2&&arenaArray.player_1!==last_name&&arenaArray.player_2!==last_name) {
+          arenaArray.team_blue += 1;
+          if (arenaArray.player_1=='null') {
+            arenaArray.player_1 = last_name;
+            edit_arena();
+          }
+          else if (arenaArray.player_2=='null') {
+            arenaArray.player_2 = last_name;
+            edit_arena();
+          }
+        }
+      }
+    }
+  }
+
   register_button.addEventListener('click', function () {
     if (register_input.value!==''&&register_input.value.length<10) {
       for (let i = 0; i < register_input.value.length; i++) {
@@ -737,13 +812,11 @@
     ctx.clearRect(0, 0, canvas.width * 10, canvas.height * 10);
     let register_box = document.getElementById("register");
     let load = document.querySelector('.load');
+
     if (load_arena==true) {
       load.classList.add('true');
       load.classList.remove('false');
-      setTimeout(() => {
-        game = true;
-        load_arena = false;
-      }, 3000);
+      serach_arena();
     }
     else{
       load.classList.add('false');
