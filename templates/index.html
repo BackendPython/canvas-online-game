@@ -880,7 +880,13 @@
         game = true;
       }
       else{
-        console.log(hello);
+        for (let i = 0; i < arena_data.length; i++) {
+          let arena = arena_data[i];
+          if (arena.id == arenaArray.id) {
+            arenaArray = arena;
+          }
+        }
+        serach_arena();
       }
     }
     else{
