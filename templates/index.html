@@ -487,26 +487,25 @@
       this.arena_id = 0;
       this.turn = 'idle';
       this.team = 'blue';
-      this.color = "blue";
+      this.color = "red";
       this.player = "null";
       this.position = 'top';
       this.original_heal = 100;
       this.width = canvas.width / 100;
-      this.height = canvas.height / 10;
+      this.height = canvas.width / 100;
     }
     uptade() {
       if (this.dead == false) {
         this.x += this.vx;
         this.y += this.vy;
-        // if () {
-          
-        // }
       }
     }
     draw() {
       ctx.beginPath();
       ctx.fillStyle = this.color;
       if (this.dead==false) {
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+        
         if (this.team=='blue') {
           imageRecources.forEach(function(image){if(image.title=='blue_tank'){ctx.drawImage(image.image_element, this.x, this.y, this.width, this.height)}})
         }
@@ -519,18 +518,6 @@
     }
   }
 
-  class Arena {
-    constructor(){
-      this.id = id;
-      this.won = 'null';
-      this.team_red = 0;
-      this.team_blue = 0;
-      this.player_1 = 'null';
-      this.player_2 = 'null';
-      this.player_3 = 'null';
-      this.player_4 = 'null';
-    }
-  }
 
   function init() {
 
@@ -574,6 +561,14 @@
   init();
 
   function draw() {
+    for (let i = 0; i < arena_data.length; i++) {
+      let arena = arena_data[i];
+      if (arena.id==arena_id) {
+        arenaArray = arena;
+      }
+    }
+
+    // playerArray data uptade
     for (let i = 0; i < player_data.length; i++){
       let custom_player = player_data[i];
       if (game==true&&name_add_arena==true) {
@@ -582,6 +577,7 @@
           playerArray[player_num].x = custom_player.x;
           playerArray[player_num].dead = custom_player.dead;
           playerArray[player_num].team = custom_player.team;
+          playerArray[player_num].player = custom_player.player;
           playerArray[player_num].position = custom_player.position;
           playerArray[player_num].original_heal = custom_player.original_heal
         }
@@ -598,6 +594,7 @@
           post_tank(3);
         }
       }
+
     }
 
     for (let b = 0; b < wallArray.length; b++) {
@@ -899,6 +896,11 @@
     }
   })
 
+
+  setInterval(() => {
+    let log = playerArray;
+    console.log(log);
+  }, 1000);
 
   var lastLoop = new Date();
   let fps_count = 0;
