@@ -15,7 +15,9 @@
     
     <div class="images_box" style="display: none;">
       <img src="{% static 'images/wall.jpg' %}" alt="error" id="brick">
-        <img src="{% static 'images/wooden.png' %}" alt="error" id="wooden">
+      <img src="{% static 'images/wooden.png' %}" alt="error" id="wooden">
+      <img src="{% static 'images/tank_red.png' %}" alt="error" id="red_tank">
+        <img src="{% static 'images/tank_blue.png' %}" alt="error" id="blue_tank">
         <img src="{% static 'images/tank_background.jpg' %}" alt="error" id="background">
         <img src="{% static 'images/game_background.png' %}" alt="error" id="game_background">
     </div>
@@ -34,8 +36,8 @@
     <script>
   window.addEventListener("load", function () {
   const register = document.getElementById('register');
-  const register_input = document.getElementById('register_name');
   const register_button = document.getElementById('resgister_button');
+  const register_input = document.getElementById('register_name');
   const canvas = document.getElementById("canvas1");
   const ctx = canvas.getContext("2d");
   canvas.height = window.innerHeight;
@@ -56,14 +58,16 @@
   let player_id = 0;
   let arena_id = 0;
   let wall_id = 0;
-  let game = true;
+  let game = false;
 
   const standart_widths = { num_100: canvas.width / 20 };
 
   const imageRecources = [
-    { title: "wooden", image_element: document.getElementById("wooden") },
     { title: "brick", image_element: document.getElementById("brick") },
     { title: "_wall", image_element: document.getElementById("wooden") },
+    { title: "wooden", image_element: document.getElementById("wooden") },
+    { title: "red_tank", image_element: document.getElementById("red_tank") },
+    { title: "blue_tank", image_element: document.getElementById("blue_tank") },
     { title: "register_background", image_element: document.getElementById("background") },
     { title: "game_background", image_element: document.getElementById("game_background") },
   ];
@@ -494,6 +498,9 @@
       if (this.dead == false) {
         this.x += this.vx;
         this.y += this.vy;
+        // if () {
+          
+        // }
       }
     }
     draw() {
@@ -561,9 +568,7 @@
 
     for (let i = 0; i < 4; i++) {
       const player = new Player();
-      player.arena_id = arenaArray.id;
-      player.color = 'blue';
-
+      playerArray.push(player);
     }
   }
   init();
@@ -572,16 +577,29 @@
     for (let i = 0; i < player_data.length; i++){
       let custom_player = player_data[i];
       if (game==true&&name_add_arena==true) {
-        if (arenaArray.player_1==custom_player.player||arenaArray.player_2==custom_player.player||arenaArray.player_3==custom_player.player||arenaArray.player_4==custom_player.player) {
-          if (playerArray.length<4) {
-            playerArray.push()
-          }
+        function post_tank(player_num) {
+          playerArray[player_num].y = custom_player.y;
+          playerArray[player_num].x = custom_player.x;
+          playerArray[player_num].dead = custom_player.dead;
+          playerArray[player_num].team = custom_player.team;
+          playerArray[player_num].position = custom_player.position;
+          playerArray[player_num].original_heal = custom_player.original_heal
         }
-        // else if () {
-          
-        // }
+        if (arenaArray.player_1==custom_player.player) {
+          post_tank(0);
+        }
+        else if (arenaArray.player_2==custom_player.player) {
+          post_tank(1);
+        }
+        else if (arenaArray.player_3==custom_player.player) {
+          post_tank(2);
+        }
+        else if (arenaArray.player_4==custom_player.player) {
+          post_tank(3);
+        }
       }
     }
+
     for (let b = 0; b < wallArray.length; b++) {
       const box_wall = wallArray[b];
       for (let m = 0; m < imageRecources.length; m++) {
@@ -592,10 +610,18 @@
         }
       }
     }
+
+    for (let p = 0; p < playerArray.length; p++) {
+      let player = playerArray[p];
+      if (player.dead!==false) {
+        player.uptade();
+        player.draw();
+      }
+    }
   }
 
   function error() {
-    console.log('name_error');
+    console.error('name_error');
   }
 
   function create_arena() {
