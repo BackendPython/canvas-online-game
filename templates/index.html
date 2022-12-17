@@ -876,8 +876,11 @@
       load.classList.add('true');
       load.classList.remove('false');
       serach_arena();
-      if (name_add_arena==true) {
+      if (name_add_arena==true&&arenaArray.team_blue==2&&arenaArray.team_red==2) {
         game = true;
+      }
+      else{
+        console.log(hello);
       }
     }
     else{
