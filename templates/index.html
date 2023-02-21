@@ -1,0 +1,270 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS work</title>
+</head>
+<body>
+    
+    <canvas id="canvas1"></canvas>
+
+
+
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        #canvas1{
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            background: black;
+        }
+    </style>
+
+    <script>
+        window.addEventListener('load', function () {
+            const canvas = document.getElementById('canvas1');
+            const ctx = canvas.getContext('2d');
+            const soldier_image = new Image();
+            soldier_image.src = "{% static 'images/wall.jpg' %}";
+            canvas.height = window.innerHeight;
+            canvas.width = window.innerWidth;
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high'
+            let camera_data = {x: 0, y: 0}
+            ctx.textAlign = 'center';
+            let particleArray = [];
+            let start_game = true;
+            let player = null;
+            
+        
+            function get_api(){
+                // api url
+                const api_url = "/player";
+
+                // Defining async function
+                async function getapi(url) {
+
+                // Storing response
+                const response = await fetch(url);
+
+                // Storing data in form of JSON
+                var data = await response.json();
+
+                if (response) {
+                    hideloader();
+                }
+                show(data);
+                }
+                // Calling that async function
+                getapi(api_url);
+
+                // Function to hide the loader
+                function hideloader() {
+
+                }
+                // Function to define innerHTML for HTML table
+                function show(data) {
+                    
+                }
+            }
+        
+            function post_api() {
+
+                fetch("/arena-add", {
+                  method: "POST", // or 'PUT'
+                  headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}",
+                  },
+                  body: JSON.stringify(arena_org_data),
+                })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('succes: ', data);
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                });
+              }
+
+            class Player {
+                constructor(){
+                    this.x = 0;
+                    this.y = 0;
+                    this.vx = 0;
+                    this.vy = 0;
+                    this.width = 100;
+                    this.dead = false;
+                    this.height = 100;
+                    this.color = 'red';
+                }
+                uptade(){
+                    this.x += this.vx;
+                    this.y += this.vy;
+                }
+                draw(){
+                    if (this.dead===false) {
+                        ctx.beginPath();
+                        ctx.fillStyle = this.color;
+                        ctx.fillRect(this.x, this.y, this.width, this.height);
+                        ctx.closePath();
+                    }
+                }
+            }
+        
+            class Particle {
+                constructor(){
+                    this.x = 0;
+                    this.y = 0;
+                    this.vx = 0;
+                    this.vy = 0;
+                    this.width = 10;
+                    this.height = 10;
+                    this.dead = false;
+                    this.color = 'yellow';
+                }
+                uptade(){
+                    this.x += this.vx;
+                    this.y += this.vy;
+                }
+                draw(){
+                    ctx.beginPath();
+                    ctx.fillStyle = this.color;
+                    ctx.arc(this.x, this.y, this.width, 0, Math.PI * 2);
+                    ctx.closePath();
+                }
+            }
+        
+            function init() {
+                player = new Player();
+                player.x = 100;
+                player.y = 100;
+            }
+            init();
+        
+            function camera_data_uptade() {
+                let vx = player.vx;
+                let vy = player.vy;
+                if (vx>0) {
+                    camera_data.x = -vx;
+                }
+                else if(vx<0){
+                    camera_data.x = Math.abs(vx);
+                }
+                else{
+                    camera_data.x = 0;
+                }
+                if (vy>0) {
+                    camera_data.y = -vy;
+                }
+                else if(vy<0){
+                    camera_data.y = Math.abs(vy);
+                }
+                else{
+                    camera_data.y = 0;
+                }
+            }
+        
+            function draw(){
+                camera_data_uptade();
+                player.uptade();
+                player.draw();
+                for (let i = 0; i < particleArray.length; i++) {
+                    const particle = particleArray[i];
+                    particle.uptade();
+                    particle.draw();
+                }
+            }
+        
+            function animate(){
+                ctx.clearRect(-canvas.width, -canvas.height, canvas.width*10, canvas.height*10);
+                //  camera follow
+                ctx.translate(camera_data.x, camera_data.y);
+                draw();
+                ctx.drawImage(soldier_image, canvas.width, canvas.height/2, 300, 300)
+        
+                requestAnimationFrame(animate);
+            }
+            animate();
+            
+            window.addEventListener('resize', function (e) {
+                canvas.height = e.target.innerHeight;
+                canvas.width = e.target.innerWidth;
+                
+            })
+        
+            window.addEventListener('keydown', function(event){
+                console.log(event.key);
+                switch (event.key) {
+                    case 'ArrowLeft':
+                        for (let i = 0; i < 5; i++) {
+                            const particle = new Particle();
+                            particle.x = player.x;
+                            particle.y = player.y;
+                            particle.vx = Math.random() * 3 - 1.5;
+                            particle.vy = Math.random() * 3 - 1.5;
+                            particleArray.push(particle);
+                        }
+                        player.vx = (-3);
+                        break;
+                
+                    case 'ArrowRight':
+                        player.vx = (3);
+                        break;
+                    case 'ArrowDown':
+                        player.vy = (3);
+                        break;
+        
+                    case 'ArrowUp':
+                        player.vy = (-3);
+                        break;
+            
+                    default:
+                        break;
+                }
+            })
+        
+            window.addEventListener('keyup', function(event){
+                ctx.translate(0, 0);
+                switch (event.key) {
+                    case 'ArrowLeft':
+                        player.vx = 0;
+                        break;
+                
+                    case 'ArrowRight':
+                        player.vx = 0;
+        
+                    case 'ArrowDown':
+                        player.vy = 0;
+        
+                    case 'ArrowUp':
+                        player.vy = 0;
+            
+                    case ' ':
+                        camera_data.x = 0;
+                        camera_data.y = 0;
+
+                    default:
+                        break;
+                }
+            })
+        
+        })
+    </script>
+</body>
+</html>
